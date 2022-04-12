@@ -1,0 +1,48 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="../../../../favicon.ico"> -->
+
+    <title>CONCOURS POLICE 2021 - Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'members/css/signin.css' %}" rel="stylesheet">
+    <style>
+        #div_id_username, #div_id_password{
+            text-align: left;
+        }
+        .asteriskField {
+            color: red;
+            margin-left: 2px;
+        }
+    </style>
+</head>
+
+<body style="text-align: center;">
+    <form class="form-signin" method="POST">
+        {% csrf_token %}
+        <img class="mb-4" src="{% static 'members/img/dgsn.jpeg' %}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">DGSN WHATSAPP Platform</h1><hr>
+        <h4 class="h4 mb-3 font-weight-normal">Veuillez vous connecter !</h4>
+        <!-- <label for="id_username" class="sr-only">Nom d'utilisateur</label>
+        <input type="text" name="username" id="id_username" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
+        <label for="id_password" class="sr-only">Mot de passe</label>
+        <input type="password" id="id_password" name="password" class="form-control" placeholder="Mot de passe" required> -->
+        {{form|crispy}}
+        <button class="btn btn-lg btn-outline-danger btn-block" type="submit">Connexion</button>
+        <p class="mt-5 mb-3 text-muted">&copy; DGSN <script>document.write(new Date().getFullYear());</script></p>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="fr" style="height: 100%;">
+
+<head>
+
+    <!-- <link rel="icon" type="image/png" href="{% static 'falsh/img/Blason_uy1.png' %}"> -->
+    {% block title %}
+    <title>{% trans "Inscriptions Concours - DGSN" %}</title>
+    {% endblock title %}
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block styles %}
+
+    <link rel="stylesheet" href="{% static 'impression/css/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'impression/dist/css/bootstrap.min.css' %}">
+
+    <script src="{% static 'impression/js/jquery.min.js' %}"></script>
+
+    <style>
+        .asteriskField {
+            color: red;
+            margin-left: 2px;
+        }
+    </style>
+
+    {% endblock %}
+
+    {% block stylepage %}
+    <!-- on mettra le style propre à chaque page ici-->
+
+    {% endblock stylepage %}
+</head>
+
+<body style="overflow-x: hidden;">
+
+    {% block nav %}
+    
+    {% endblock nav %}
+    <!-- END nav -->
+
+    <div class="container content">
+        <div class="row">
+
+            {% block content %}
+
+            {% block aide %}
+
+            {% endblock aide %}
+
+            {% endblock content %}
+        </div>
+    </div>
+    <br>
+
+    {% block footer %}
+    <footer class="ftco-footer ftco-section"
+        style="color: #eee; padding-top: 10px; /*padding-bottom: 12px;*/ background:#dc3545 !important;">
+        <div class="container">
+            <!-- <div class="row justify-content-center align-items-center mb-2">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
+                    <div class="row d-flex flex-column align-items-center ftco-footer-widget ml-md-4 mb-3">
+                        <h2 class="ftco-heading-2">{% trans "Université de Yaoundé I" %}</h2>
+                        <ul class="list-unstyled row d-flex col-md-12">
+                            <li class="col-sm-12 col-md-6"><a href="https://www.uy1.uninet.cm" target="_blank"
+                                    style="color: #eee;">
+                                    {% trans "Qui sommes nous ?" %}</a></li>
+                            <li class="col-sm-12 col-md-6"><a href="mailto:inscriptions@univ-yaounde1.cm"
+                                    style="color: #eee;">{% trans "Nous contacter" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>
+                        Copyright &copy; DGSN
+                        <script>document.write(new Date().getFullYear());</script>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock footer %}
+
+    {% block scripts %}
+
+    <script src="{% static 'impression/js/jquery.min.js' %}"></script>
+    <script src="{% static 'impression/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'impression/js/js.cookie.js' %}"></script>
+
+    {% endblock scripts %}
+
+</body>
+
+</html>
