@@ -4,6 +4,8 @@ from django.db import models
 
 class Candidat(models.Model):
     telephone = models.CharField(max_length=255)
+    telephone_pere = models.CharField(max_length=255, null=True, blank=True)
+    telephone_mere = models.CharField(max_length=255, null=True, blank=True)
     nom = models.CharField(max_length=255)
     concours = models.CharField(max_length=255)
     etablissement = models.CharField(max_length=255)
@@ -20,4 +22,4 @@ class Candidat(models.Model):
 
     class Meta:
        verbose_name = 'Candidat'
-       verbose_name_plural = 'Candidat'
+       verbose_name_plural = 'Candidats'

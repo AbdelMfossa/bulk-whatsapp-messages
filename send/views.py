@@ -58,7 +58,11 @@ def send_messages(candidats):
     print("**********************************************************")
     print(style.RESET)
 
-    print(style.RED + 'Nous avons trouvé ' + str(total) + ' enregistrements' + style.RESET)
+    if total <= 1:
+        print(style.RED + 'Nous avons trouvé ' + str(total) + ' candidat' + style.RESET)
+    else:
+        print(style.RED + 'Nous avons trouvé ' + str(total) + ' candidats' + style.RESET)
+
     delay = 30
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     print('Une fois que votre navigateur s\'ouvre, connectez-vous à Whatsapp Web.')
@@ -66,45 +70,52 @@ def send_messages(candidats):
     input(style.MAGENTA + "APRÈS que la connexion à Whatsapp Web soit terminée et que vos messages soient visibles, appuyez sur ENTRÉE...." + style.RESET)
 
     for idx, candidat in enumerate(candidats):
+        me_and_parents = [candidat.telephone, candidat.telephone_pere, candidat.telephone_mere]
+        for c, number in enumerate(me_and_parents):
 
-        message = "{}: Epreuves écrites {} le {} dès 6h30 à {}, salle {}, table {}.".format(candidat.nom, candidat.concours, candidat.date_exam, candidat.etablissement, candidat.salle, candidat.table)
-        phone = "+" + str(candidat.telephone)
+            message = "{}: Epreuves écrites {} le {} dès 6h30 à {}, salle {}, table {}.".format(candidat.nom, candidat.concours, candidat.date_exam, candidat.etablissement, candidat.salle, candidat.table)
+            phone = "+" + str(number)
 
-        if phone == "":
-            continue
-        print(style.YELLOW + '{}/{} => Envoi du message à {}.'.format((idx+1), total, phone) + style.RESET)
+            if phone == "":
+                continue
+            print(style.YELLOW + '{}/{} - {} => Envoi du message à {}.'.format((idx+1), total, c, phone) + style.RESET)
 
-        try:
-            url = 'https://web.whatsapp.com/send?phone=' + phone + '&text=' + message
-            sent = False
-            for i in range(2):
-                if not sent:
-                    driver.get(url)
-                    try:
-                        click_btn = WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, "//button[@class='_4sWnG']")))
-                    except Exception as e:
-                        print(style.RED + f"\nÉchec d'envoi du message à : {phone}, réessayer ({i+1}/2)")
-                        print("Assurez-vous que votre téléphone et votre ordinateur sont connectés à l'internet...")
-                        print("S'il y a une alerte sur le nqvigateur, veuillez la fermer." + style.RESET)
-                    else:
-                        sleep(1)
-                        click_btn.click()
-                        sent=True
-                        sleep(3)
-                        print(style.GREEN + 'Message envoyé à : ' + phone + style.RESET)
-        except Exception as e:
-            print(style.RED + 'Échec d\'envoi du message à ' + phone + str(e) + style.RESET)
+            try:
+                url = 'https://web.whatsapp.com/send?phone=' + phone + '&text=' + message
+                sent = False
+                for i in range(2):
+                    if not sent:
+                        driver.get(url)
+                        try:
+                            click_btn = WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, "//button[@class='_4sWnG']")))
+                        except Exception as e:
+                            print(style.RED + f"\nÉchec d'envoi du message à : {phone}, réessayer ({i+1}/2)")
+                            print("Assurez-vous que votre téléphone et votre ordinateur sont connectés à l'internet...")
+                            print("S'il y a une alerte sur le navigateur, veuillez la fermer." + style.RESET)
+                        else:
+                            sleep(1)
+                            click_btn.click()
+                            sent=True
+                            sleep(3)
+                            print(style.GREEN + 'Message envoyé à : ' + phone + style.RESET)
+                            
+                            candidat.go = True
+                            candidat.date_envoi = datetime.now().strftime('%H:%M:%S')
+                            candidat.status_code = '|200'
+                            candidat.status_msg = "|message sent"
+                            candidat.save()
+                            nb_send += 1
 
-        candidat.go = True
-        candidat.date_envoi = datetime.now().strftime('%H:%M:%S')
-        candidat.status_code = 'status'
-        candidat.status_msg = "{}".format('message')
-        candidat.save()
-        nb_send += 1
+            except Exception as e:
+                print(style.RED + 'Échec d\'envoi du message à ' + phone + str(e) + style.RESET)
+                candidat.status_code = '|400'
+                candidat.status_msg = "|message not sent"
+                candidat.save()
+                nb_error += 1
 
     nb = {
         'nb_send': nb_send,
-        # 'nb_error': nb_error
+        'nb_error': nb_error
     }
 
     return nb
