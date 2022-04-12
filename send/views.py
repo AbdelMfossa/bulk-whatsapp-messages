@@ -70,12 +70,19 @@ def send_messages(candidats):
     input(style.MAGENTA + "APRÈS que la connexion à Whatsapp Web soit terminée et que vos messages soient visibles, appuyez sur ENTRÉE...." + style.RESET)
 
     for idx, candidat in enumerate(candidats):
+
         me_and_parents = [candidat.telephone, candidat.telephone_pere, candidat.telephone_mere]
+        status_code = ""
+        status_msg = ""
+        first_go = False
+
         for c, number in enumerate(me_and_parents):
 
             message = "{}: Epreuves écrites {} le {} dès 6h30 à {}, salle {}, table {}.".format(candidat.nom, candidat.concours, candidat.date_exam, candidat.etablissement, candidat.salle, candidat.table)
 
             if not number:
+                status_code = "| "
+                status_msg = "| "
                 continue
 
             phone = "+" + str(number)
@@ -93,6 +100,9 @@ def send_messages(candidats):
                             print(style.RED + f"\nÉchec d'envoi du message à : {phone}, réessayer ({i+1}/2)")
                             print("Assurez-vous que votre téléphone et votre ordinateur sont connectés à l'internet...")
                             print("S'il y a une alerte sur le navigateur, veuillez la fermer." + style.RESET)
+                            status_code += "|400"
+                            status_msg += "|message not sent"
+                            nb_error += 1
                         else:
                             sleep(1)
                             click_btn.click()
@@ -100,19 +110,28 @@ def send_messages(candidats):
                             sleep(3)
                             print(style.GREEN + 'Message envoyé à : ' + phone + style.RESET)
                             
-                            candidat.go = True
-                            candidat.date_envoi = datetime.now().strftime('%H:%M:%S')
-                            candidat.status_code = '200'
-                            candidat.status_msg = "message sent"
-                            candidat.save()
+                            status_code += "|200"
+                            status_msg += "|message sent"
+                            if c == 0:
+                                first_go = True
                             nb_send += 1
 
             except Exception as e:
                 print(style.RED + 'Échec d\'envoi du message à ' + phone + str(e) + style.RESET)
-                candidat.status_code = '400'
-                candidat.status_msg = "message not sent"
-                candidat.save()
-                nb_error += 1
+                # status_code += "|400"
+                # status_msg += "|message not sent"
+                # nb_error += 1
+
+        if first_go:
+            candidat.go = True
+            candidat.date_envoi = datetime.now().strftime('%H:%M:%S')
+            candidat.status_code = status_code
+            candidat.status_msg = status_msg
+            candidat.save()
+        else:
+            candidat.status_code = status_code
+            candidat.status_msg = status_msg
+            candidat.save()
 
     nb = {
         'nb_send': nb_send,
