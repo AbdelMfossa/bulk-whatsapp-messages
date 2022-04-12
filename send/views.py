@@ -102,15 +102,15 @@ def send_messages(candidats):
                             
                             candidat.go = True
                             candidat.date_envoi = datetime.now().strftime('%H:%M:%S')
-                            candidat.status_code = '|200'
-                            candidat.status_msg = "|message sent"
+                            candidat.status_code += '|200'
+                            candidat.status_msg += "|message sent"
                             candidat.save()
                             nb_send += 1
 
             except Exception as e:
                 print(style.RED + 'Échec d\'envoi du message à ' + phone + str(e) + style.RESET)
-                candidat.status_code = '|400'
-                candidat.status_msg = "|message not sent"
+                candidat.status_code += '|400'
+                candidat.status_msg += "|message not sent"
                 candidat.save()
                 nb_error += 1
 
