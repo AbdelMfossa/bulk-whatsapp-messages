@@ -74,10 +74,11 @@ def send_messages(candidats):
         for c, number in enumerate(me_and_parents):
 
             message = "{}: Epreuves écrites {} le {} dès 6h30 à {}, salle {}, table {}.".format(candidat.nom, candidat.concours, candidat.date_exam, candidat.etablissement, candidat.salle, candidat.table)
-            phone = "+" + str(number)
 
-            if phone == "":
+            if number == "":
                 continue
+
+            phone = "+" + str(number)
             print(style.YELLOW + '{}/{} - {} => Envoi du message à {}.'.format((idx+1), total, c, phone) + style.RESET)
 
             try:
