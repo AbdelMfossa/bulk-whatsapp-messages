@@ -79,7 +79,7 @@ def send_messages(candidats):
                 continue
 
             phone = "+" + str(number)
-            print(style.YELLOW + '{}/{} - {} => Envoi du message à {}.'.format((idx+1), total, c, phone) + style.RESET)
+            print(style.YELLOW + '{}/{} - {} => Envoi du message à {}.'.format((idx+1), total, (c+1), phone) + style.RESET)
 
             try:
                 url = 'https://web.whatsapp.com/send?phone=' + phone + '&text=' + message
