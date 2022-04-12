@@ -75,7 +75,7 @@ def send_messages(candidats):
 
             message = "{}: Epreuves écrites {} le {} dès 6h30 à {}, salle {}, table {}.".format(candidat.nom, candidat.concours, candidat.date_exam, candidat.etablissement, candidat.salle, candidat.table)
 
-            if number == "":
+            if not number:
                 continue
 
             phone = "+" + str(number)
