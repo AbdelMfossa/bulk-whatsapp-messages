@@ -126,9 +126,6 @@ def send_messages(candidats):
 
             except Exception as e:
                 print(style.RED + 'Échec d\'envoi du message à ' + phone + str(e) + style.RESET)
-                # status_code += "|400"
-                # status_msg += "|message not sent"
-                # nb_error += 1
 
         if first_go:
             candidat.go = True
