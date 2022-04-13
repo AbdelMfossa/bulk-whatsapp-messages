@@ -36,8 +36,14 @@ def send_messages(candidats):
     nb_send = 0
     nb_error = 0
 
-    os.system("")
+    # En fonction du SE, on vide le terminal avant l'execution du code
+    if platform == "linux" or platform == "linux2":
+        os.system("clear")
+    elif platform == "win32":
+        os.system("cls")
+
     os.environ["WDM_LOG_LEVEL"] = "0"
+    
     class style():
         BLACK = '\033[30m'
         RED = '\033[31m'
