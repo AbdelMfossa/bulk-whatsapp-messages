@@ -14,7 +14,9 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 from urllib.parse import quote
+# import de OS et de SYS
 import os
+from sys import platform
 
 options = Options()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
