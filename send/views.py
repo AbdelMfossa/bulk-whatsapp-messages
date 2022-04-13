@@ -36,14 +36,14 @@ def send_messages(candidats):
     nb_send = 0
     nb_error = 0
 
-    # En fonction du SE, on vide le terminal avant l'execution du code
+    # Depending on the OS, the terminal is cleared before the code is executed
     if platform == "linux" or platform == "linux2":
         os.system("clear")
     elif platform == "win32":
         os.system("cls")
 
     os.environ["WDM_LOG_LEVEL"] = "0"
-    
+
     class style():
         BLACK = '\033[30m'
         RED = '\033[31m'
@@ -67,9 +67,9 @@ def send_messages(candidats):
     print(style.RESET)
 
     if total <= 1:
-        print(style.RED + 'Nous avons trouvé ' + str(total) + ' candidat' + style.RESET)
+        print(style.RED + 'We found ' + str(total) + ' candidate' + style.RESET)
     else:
-        print(style.RED + 'Nous avons trouvé ' + str(total) + ' candidats' + style.RESET)
+        print(style.RED + 'We found ' + str(total) + ' candidates' + style.RESET)
 
     delay = 30
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
